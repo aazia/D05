@@ -18,12 +18,10 @@ int		*ft_map(int *tab, int length, int(*f)(int))
 	int i;
 	
 	i = 0;
-	while (tab[i])
-		i++;
-	array = (int *)malloc(sizeof(int) * (i));
-	while (tab[i])
+	array = (int *)malloc(sizeof(int) * (length));
+	while (i < length))
 	{
-		array[i] = f(i);
+		array[i] = f(tab[i]);
 		i++;
 	}
 	return (array);
