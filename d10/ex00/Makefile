@@ -11,19 +11,17 @@
 # **************************************************************************** #
 
 NAME = libft.a
-SOURCE = srcs
-HEADER_DIR = includes
+SOURCE = srcs/ft_putchar.c srcs/ft_putstr.c srcs/ft_strcmp.c\
+				 srcs/ft_strlen.c srcs/ft_swap.c
+OBJECTS = ft_putchar.o ft_putstr.o ft_strcmp.o ft_strlen.o ft_swap.o
+HEADER = -I includes/
 
 all: $(NAME)
 
-$(NAME): $(HEADER_DIR)
-	gcc -c /$(SOURCE)/*.c
-
-make_lib: $(NAME) ft_putchar.o ft_putstr.o ft_strcmp.o ft_strlen.o ft_swap.o
-	ar rc libft.a ft_putchar.o ft_putstr.o ft_strcmp.o ft_strlen.o ft_swap.o
-
-rl:
-	ranlib libft.a
+$(NAME):
+	gcc $(HEADER) -c $(SOURCE)
+	ar rc $(NAME) $(OBJECTS)
+	ranlib $(NAME)
 
 clean: 
 	rm -f *.o
