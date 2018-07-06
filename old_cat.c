@@ -32,23 +32,26 @@ int   main(int argc, char **argv)
   int	i;
   char	array[1];
 
-  i = 1;
+  i = 0;
   while (i < argc)
   {
-	  if (argc >= 2)
-	  {
-		  file = open(argv[i], O_RDONLY);
+    if (argc == 1 || argv[i][0] == '-')
+      file = 0;
+    else
+      file = open(argv[i], O_RDONLY);
+    if (file == -1)
+		    {
+		      ft_putstr("cat: ");
+		      ft_putstr(argv[1]);
+		      ft_putstr(": No such file or directory\n");
+		    }
+		  else
+		    {
 		  while (read(file, array, 1) > 0)
 			  ft_putchar(array[0]);
 		  close(file);
 		  ft_putchar('\n');
-	  }
-	  else if (argc == 1)
-	  {
-		  ft_putstr("cat: ");
-		  ft_putstr(argv[1]);
-		  ft_putstr(": No such file or directory\n");
-	  }
+		    }
 	  i++;			
   }
   return (0);
