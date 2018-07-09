@@ -6,7 +6,7 @@
 /*   By: doyang <doyang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 13:36:34 by azkeever          #+#    #+#             */
-/*   Updated: 2018/07/08 15:55:23 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/08 22:01:57 by smonroe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ int		count_y(char *ref)
 	return (y);
 }
 
+char *realloc(ref)
+{
+	char *new;
+
+	new = (char *)malloc(sizeof(char) * ft_strlen(ref) + (BUFF_SIZE) + 1);
+	if (new == NULL)
+		return (NULL);
+	new = ft_strcpy(new, ref); //check arguments right place
+	return (new);
+}
+
 void	get_output(char *ref)
 {
 	char	array[1];
@@ -48,6 +59,8 @@ void	get_output(char *ref)
 	{
 		ref[i] = array[0];
 		i++;
+		if (i % BUFF_SIZE == 0)
+			ref = ft_realloc(ref);
 	}
 	ref[i] = 0;
 }
@@ -59,8 +72,8 @@ int		main(int argc, char **argv)
 	int		x;
 	int		y;
 
-	ref = malloc(BUFF_SIZE + 1);
-	count_index = malloc(BUFF_SIZE + 1);
+	ref = (char *)malloc(BUFF_SIZE + 1);
+	count_index = (int *)malloc(BUFF_SIZE + 1);
 	if (argc == 1 && argv[0] != 0)
 	{
 		get_output(ref);

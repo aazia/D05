@@ -6,7 +6,7 @@
 /*   By: doyang <doyang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 23:01:21 by doyang            #+#    #+#             */
-/*   Updated: 2018/07/08 21:19:49 by smonroe          ###   ########.fr       */
+/*   Updated: 2018/07/08 21:13:04 by smonroe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define BUFF_SIZE 4096
+# define BUFF_SIZE 100000000
 
 void	ft_putchar(char c);
 void	ft_putstr(char *str);

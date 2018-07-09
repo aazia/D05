@@ -16,7 +16,7 @@ int		compare_rushtype(int x, int y, int i, char *ref)
 {
 	char *tocomp;
 
-	tocomp = malloc(sizeof(char) * (x * y + 1));
+	tocomp = (char *)malloc(sizeof(char) * (x * y + 1));
 	if (i == 1)
 		rush00(tocomp, x, y);
 	if (i == 2)
