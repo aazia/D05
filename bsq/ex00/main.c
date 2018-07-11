@@ -6,50 +6,56 @@
 /*   By: shiroji <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/09 14:43:55 by shiroji           #+#    #+#             */
-/*   Updated: 2018/07/10 19:42:15 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 01:47:22 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include <stdio.h>
 #include "bsq.h"
-#define R 10
-#define C 7
  
-void printMaxSubSquare(int M[R][C])
+void find_square(int **m, int x, int y)
 {
   int i,j;
-  int S[R][C];
+  int s[y][x];
   int max_of_s, max_i, max_j; 
- 
+
+  i = -1;
+  while(++i < y)
+  {
+	  j = -1;
+	  while (++j < x)
+		  printf("%d ", m[i][j]);
+	  printf("\n");
+  } 
   /* Set first column of S[][]*/
-  for(i = 0; i < R; i++)
-     S[i][0] = M[i][0];
+  for(i = 0; i < y; i++)
+     s[i][0] = m[i][0];
 
   /* Set first row of S[][]*/    
-  for(j = 0; j < C; j++)
-     S[0][j] = M[0][j];
+  for(j = 0; j < x; j++)
+     s[0][j] = m[0][j];
 
   /* Construct other entries of S[][]*/
-  for(i = 1; i < R; i++)
+  for(i = 1; i < y; i++)
   {
-    for(j = 1; j < C; j++)
+    for(j = 1; j < x; j++)
     {
-      if(M[i][j] == 1) 
-        S[i][j] = min(S[i][j-1], S[i-1][j], S[i-1][j-1]) + 1;
+      if(m[i][j] == 1) 
+        s[i][j] = min(s[i][j-1], s[i-1][j], s[i-1][j-1]) + 1;
       else
-        S[i][j] = 0;
+        s[i][j] = 0;
     } 
   } 
    
   /* Find the maximum entry, and indexes of maximum entry 
      in S[][] */
-  max_of_s = S[0][0]; max_i = 0; max_j = 0;
-  for(i = 0; i < R; i++)
+  max_of_s = s[0][0]; max_i = 0; max_j = 0;
+  for(i = 0; i < y; i++)
   {
-    for(j = 0; j < C; j++)
+    for(j = 0; j < x; j++)
     {
-      if(max_of_s < S[i][j])
+      if(max_of_s < s[i][j])
       {
-         max_of_s = S[i][j];
+         max_of_s = s[i][j];
          max_i = i; 
          max_j = j;
       }        
@@ -57,30 +63,13 @@ void printMaxSubSquare(int M[R][C])
   }     
    
   ft_putstr("Maximum size sub-matrix is: \n");
-  for(i = max_i; i > max_i - max_of_s; i--)
+  printf("%i, %i, %i\n", max_i, max_j, max_of_s);
+	for(i = max_i; i > max_i - max_of_s; i--)
   {
-    for(j = max_j; j > max_j - max_of_s; j--)
+   for(j = max_j; j > max_j - max_of_s; j--)
     {
-      ft_putnbr(M[i][j]);
+      ft_putnbr(m[i][j]);
     }  
     ft_putstr("\n");
   }  
 }
- 
-/* Driver function to test above functions */
-int main(void)
-{
-  int  M[R][C] =   {{1, 1, 1, 1, 1, 1, 1}, 
-           		        {1, 0, 1, 1, 1, 1, 1}, 
-                   		{1, 1, 1, 1, 1, 1, 1},
-           		        {1, 1, 1, 1, 1, 1, 1},
-           		        {1, 1, 1, 1, 1, 1, 1},
-           		        {1, 0, 1, 1, 1, 1, 1},
- 		 			    {1, 1, 1, 1, 1, 0, 1},
-  				   		{1, 1, 1, 1, 1, 1, 1},
-  				   		{1, 1, 0, 1, 1, 0, 1},
-  				   		{1, 0, 1, 0, 1, 1, 1}};
-                
-  printMaxSubSquare(M);
- return (0); 
-}  

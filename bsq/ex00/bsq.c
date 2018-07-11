@@ -6,16 +6,30 @@
 /*   By: azkeever <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 13:36:34 by azkeever          #+#    #+#             */
-/*   Updated: 2018/07/10 23:02:36 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 02:31:59 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <unistd.h>
 #include "bsq.h"
+#include <stdio.h>
 
+void	quik(char **m)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (m[i])
+	{
+		j = 0;
+		while (m[i][j])
+		{
+			ft_putchar(m[i][j++]);
+		}
+		ft_putchar('\n');
+		i++;
+	}
+}
 /* realloc memory for a str */
 char 	*ft_realloc(char *ref)
 {
@@ -25,41 +39,87 @@ char 	*ft_realloc(char *ref)
 	i = 0;
 	new = (char *)malloc(sizeof(char) * ft_strlen(ref) + (BUFF_SIZE) + 1);
 	if (new == NULL)
-	{
 			return (NULL);
-	}
 	while (i < (ft_strlen(ref) + (BUFF_SIZE) + 1))
 		new[i++] = 0;
 	new = ft_strcpy(new, ref);
 	return (new);
 }
 
+/* turns **matrix into sum matrix */
+int		**make_sumatrix(char *info, char **matrix, int x, int y)
+{
+	int i;
+	int j;
+	int	**s;
+	printf("%s\n", info);
+	printf("%c is open, %c is obst, %c is fill\n", info[ft_strlen(info) - 3], info[ft_strlen(info) - 2], info[ft_strlen(info) - 1]);
+	quik(matrix);
+	ft_putchar('\n');
+	i = 0;
+	s = (int **)malloc(sizeof(int *) * (y + 1));
+	while (i < y)
+	{
+		j = 0;
+		s[i] = (int *)malloc(sizeof(int) * (x + 1));
+		while (j < x - 1)
+		{
+			if (matrix[i][j] == info[ft_strlen(info) - 2])
+				s[i][j++] = 0;
+			else if (matrix[i][j] == info[ft_strlen(info) - 3])
+				s[i][j++] = 1;
+			else
+			{
+				ft_putnbr(i);
+				ft_putchar('\n');
+				ft_putnbr(j);
+				ft_putchar('\n');
+				ft_putchar(matrix[i][j]);
+				ft_putchar('\n');
+				errr();
+			}
+		}
+		i++;
+	}
+	find_square(s, --x, y);
+	return (s);
+}
+
 /* turn *str matrix into **str matrix */
-char **make_matrix(char *info, int size, char *map)
+char **make_matrix(char *info, char *map, int x, int y)
 {
 	char **matrix;
+	char array[1];
 	int i;
 	int j;
 	int file;
 
 	i = 0;
 	j = 0;
-	matrix = (char **)malloc(sizeof(char) * size + 1) 
-	file = open(map, 0);
+	matrix = (char **)malloc(sizeof(char *) * (ft_atoi(info) + 1));
+	file = open(map, O_RDONLY);
 	while (read(file, array, 1) > 0 && array[0] != '\n')
-	{
-		i++;
-	}
+	  ;
 	while (read(file, array, 1) > 0)
 	{
-		matrix[i][j] = array[0];
+		matrix[i] = (char *)malloc(sizeof(char) * x);
 		if (array[0] == '\n')
 		{
-			j++;
-			i = 0;
+			ft_putchar(array[0]);
+			matrix[i++][j] = 0;
+			j = 0;
 		}
-		i++;
+		else
+		{
+			matrix[i][j++] = array[0];
+			ft_putchar(matrix[i][j - 1]);
+		}
 	}
+	close(file);
+	ft_putnbr(i);
+	matrix[i] = NULL;
+	quik(matrix);
+	make_sumatrix(info, matrix, x, y);
 	return (matrix);
 }
 
@@ -70,64 +130,40 @@ char	**get_info(char *map)
 	int		file;
 	int 	i;
 	char	*info;
+	int		x;
+	int		y;
 
+	x = 0;
 	i = 0;
 	info = (char *)malloc(sizeof(char) * (BUFF_SIZE) + 1);
-	file = open(map, 0);
+	file = open(map, O_RDONLY);
 	while (read(file, array, 1 > 0) && array[0] != '\n')
 	{
 		info[i] = array[0];
 		i++;
-		if (i % 4 == 0)
+		if (i % BUFF_SIZE == 0)
 			info = ft_realloc(info);
 	}
+	info[i] = 0;
 	i = 0;
 	while (read(file, array, 1) > 0)
-	{
 		i++;
-	}
 	close(file);
-	return (make_matrix(info, i, map));
-}
-
-/* turns **matrix into sum matrix */
-int		**make_sumatrix(info, matrix, i)
-{
-	int i;
-	int j;
-	int	**s;
-
 	y = ft_atoi(info);
 	x = i / y;
-	i = 0;
-	s = (int **)malloc(sizeof(int) * (x * y) + 1);
-	while (i < x)
-	{
-		j = 0;
-		while (j < y)
-		{
-			if (matrix[i][j] == info[2])
-				s[i][j] = 1;
-			else
-				s[i][j] = 0;
-			j++;
-		}
-		i++;
-	}
-	return (s);
+	return (make_matrix(info, map, x, y));
 }
 
 /* driver function to test */
 int		main(int argc, char **argv)
 {
-	if (argc == 2 & is_valid(argv[1]))
+	char	**matrix;
+
+	if (argc == 2)
 	{
-		get_info(argv[1]);
-		make_matrix();
+		matrix = get_info(argv[1]);		
 	}
 	else
-		write(1, "map error\n", 10);
+		errr();
 	return  (0);
 }
-
-

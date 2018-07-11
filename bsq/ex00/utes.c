@@ -128,3 +128,9 @@ char	*ft_strcpy(char *dest, const char *src)
 	dest[i++] = '\0';
 	return (dest);
 }
+
+void  errr(void)
+{
+  ft_putstr("map error\n");
+  exit(0);
+}
