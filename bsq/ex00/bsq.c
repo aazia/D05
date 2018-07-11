@@ -6,7 +6,7 @@
 /*   By: azkeever <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 13:36:34 by azkeever          #+#    #+#             */
-/*   Updated: 2018/07/11 02:31:59 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 02:40:49 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	quik(char **m)
 		i++;
 	}
 }
+
 /* realloc memory for a str */
 char 	*ft_realloc(char *ref)
 {
@@ -52,8 +53,7 @@ int		**make_sumatrix(char *info, char **matrix, int x, int y)
 	int i;
 	int j;
 	int	**s;
-	printf("%s\n", info);
-	printf("%c is open, %c is obst, %c is fill\n", info[ft_strlen(info) - 3], info[ft_strlen(info) - 2], info[ft_strlen(info) - 1]);
+
 	quik(matrix);
 	ft_putchar('\n');
 	i = 0;
@@ -69,15 +69,7 @@ int		**make_sumatrix(char *info, char **matrix, int x, int y)
 			else if (matrix[i][j] == info[ft_strlen(info) - 3])
 				s[i][j++] = 1;
 			else
-			{
-				ft_putnbr(i);
-				ft_putchar('\n');
-				ft_putnbr(j);
-				ft_putchar('\n');
-				ft_putchar(matrix[i][j]);
-				ft_putchar('\n');
 				errr();
-			}
 		}
 		i++;
 	}
@@ -96,7 +88,7 @@ char **make_matrix(char *info, char *map, int x, int y)
 
 	i = 0;
 	j = 0;
-	matrix = (char **)malloc(sizeof(char *) * (ft_atoi(info) + 1));
+	matrix = (char **)malloc(sizeof(char *) * (y + 1));
 	file = open(map, O_RDONLY);
 	while (read(file, array, 1) > 0 && array[0] != '\n')
 	  ;
@@ -105,7 +97,6 @@ char **make_matrix(char *info, char *map, int x, int y)
 		matrix[i] = (char *)malloc(sizeof(char) * x);
 		if (array[0] == '\n')
 		{
-			ft_putchar(array[0]);
 			matrix[i++][j] = 0;
 			j = 0;
 		}
@@ -115,9 +106,17 @@ char **make_matrix(char *info, char *map, int x, int y)
 			ft_putchar(matrix[i][j - 1]);
 		}
 	}
-	close(file);
-	ft_putnbr(i);
-	matrix[i] = NULL;
+  while (matrix[i])
+  {
+    j = 0;
+    while (matrix[i][j])
+    {
+      ft_putchar(matrix[i][j++]);
+    }
+    i++;
+  }
+  close(file);
+  matrix[i] = NULL;
 	quik(matrix);
 	make_sumatrix(info, matrix, x, y);
 	return (matrix);
