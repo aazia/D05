@@ -6,7 +6,7 @@
 /*   By: azkeever <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 13:36:34 by azkeever          #+#    #+#             */
-/*   Updated: 2018/07/11 22:08:43 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 21:16:13 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ int		**make_sumatrix(char *info, char *matrix, int x, int y)
 	}
   ft_putchar('\n');
   ft_putstr("calling find_square\n");
-	return (find_square(s, --x, y));
+	return (find_square(s, x--, y));
 }
 
 /* turn *str matrix into **str matrix */
-int **make_matrix(char *info, char *map, int x, int y)
+char *make_matrix(char *info, char *map, int x, int y)
 {
 	char *matrix;
 	char array[1];
@@ -107,7 +107,7 @@ int **make_matrix(char *info, char *map, int x, int y)
 	}
 	close(file);
 	matrix[i] = '\0';
-	return (make_sumatrix(info, matrix, --x, y));
+	return (make_sumatrix(info, matrix, x, y));
 }
 
 /* get's the info 2 read the map */
@@ -144,9 +144,11 @@ void	get_info(char *map)
 /* driver function to test */
 int		main(int argc, char **argv)
 {
+	char	*matrix;
+
 	if (argc == 2)
 	{
-		get_info(argv[1]);		
+		matrix = get_info(argv[1]);		
 	}
 	else
 		errr();

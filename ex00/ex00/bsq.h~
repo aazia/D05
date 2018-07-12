@@ -6,7 +6,7 @@
 /*   By: azkeever <azkeever@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/11 00:17:55 by azkeever          #+#    #+#             */
-/*   Updated: 2018/07/11 21:57:24 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 21:54:24 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		min(int a, int b, int c);
 int		ft_strlen(char *str);
 char	*ft_strcpy(char *dest, const char *src);
 int		**find_square(int **m, int x, int y);
-int		**find_max(int **s, int **m, int x, int y);
+int		**find_max(int **s, int **m, int i, int j);
 void	print_map(char *info, int **m, int x, int y);
 
 #endif

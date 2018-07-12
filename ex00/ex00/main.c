@@ -6,18 +6,38 @@
 /*   By: shiroji <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/09 14:43:55 by shiroji           #+#    #+#             */
-/*   Updated: 2018/07/11 21:42:56 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 22:12:06 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
 #include "bsq.h"
- 
-void find_square(int **m, int x, int y)
+
+int		**make_s(int x, int y)
+{
+	int i;
+	int z;
+	int **s;
+
+	i = 0;
+	s = (int **)malloc(sizeof(int *) * x);
+	while (i < y)
+	{
+		z = 0;
+		s[i] = (int *)malloc(sizeof(int) * y);
+		while (z < y)
+			s[i][z++] = 0;
+		i++;
+	}
+	return (s);
+}
+
+int		**find_square(int **m, int x, int y)
 {
 	int i;
 	int j;
-  	int s[y][x];
+  	int **s;
 
+	s = make_s(x, y);
   /* Set first column of S[][]*/
 	i = -1;
 	while (++i < y)
@@ -29,7 +49,9 @@ void find_square(int **m, int x, int y)
 		s[0][j] = m[0][j];
 
   /* Construct other entries of S[][]*/
-  for(i = 1; i < y; i++)
+  
+
+	for(i = 1; i < y; i++)
   {
     for(j = 1; j < x; j++)
     {
@@ -39,14 +61,17 @@ void find_square(int **m, int x, int y)
         s[i][j] = 0;
     } 
   }
-  find_max(s, m, i, j);
+  return(find_max(s, m, x, y));
 }
-void find_max(int s[][], int **m, int i, int j)
+
+int		**find_max(int **s, int **m, int x, int y)
 {   
   	int max_of_s;
 	int max_i;
 	int max_j; 
-
+	int j;
+	int i;
+	
   /* Find the maximum entry, and indexes of maximum entry 
      in S[][] */
   max_of_s = s[0][0]; max_i = 0; max_j = 0;
@@ -70,15 +95,32 @@ void find_max(int s[][], int **m, int i, int j)
           m[i][j++] = 2;
       i++;
   }
+  return(m);
 }
-  i = 0;
-  while (i < y)
-  {
-      j = 0;
-      while (j < x)
-        ft_putnbr(m[i][j++]);
-      ft_putchar('\n');
-      i++;
-  }
-  ft_putchar('\n');
+
+void	print_map(char *info, int **m, int x, int y)
+{
+	int i;
+	int j;
+	int len;
+
+	i = 0;
+	len = ft_strlen(info);
+	while (i < y)
+	{
+		j = 0;
+      	while (j < x - 1)
+		{
+			if (m[i][j] == 0)
+				ft_putchar(info[len - 2]);
+			if (m[i][j] == 1)
+				ft_putchar(info[len - 3]);
+			if (m[i][j] == 2)
+				ft_putchar(info[len - 1]);
+        	j++;
+		}
+      	ft_putchar('\n');
+      	i++;
+  	}
+  	ft_putchar('\n');
 }
