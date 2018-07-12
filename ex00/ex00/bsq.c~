@@ -6,7 +6,7 @@
 /*   By: azkeever <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 13:36:34 by azkeever          #+#    #+#             */
-/*   Updated: 2018/07/11 21:16:13 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 20:16:39 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,38 +41,29 @@ int		**make_sumatrix(char *info, char *matrix, int x, int y)
 	i = 0;
 	ft_putstr(matrix);
 	s = (int **)malloc(sizeof(int *) * (y));
-	while (i < y && matrix[k])
+	while (i < y - 1)
 	{
 		j = 0;
 		s[i] = (int *)malloc(sizeof(int) * (x));
-		while (j < x && matrix[k])
+		while (j < x)
 		{
 			if (matrix[k] == info[ft_strlen(info) - 2])
 			{
 				s[i][j++] = 0;
-				ft_putchar('0');
 			}
 			else if (matrix[k] == info[ft_strlen(info) - 3])
 			{
 				s[i][j++] = 1;
-				ft_putchar('1');
 			}
 			else if (matrix[k] == '\n')
-			{
-				ft_putchar('\n');
-				//k++;
-			}
+				k++;
 			else
-			{
-				ft_putchar(matrix[k]);
-				ft_putnbr(matrix[k]);
 				errr();
-			}
 			k++;
 		}
 		i++;
 	}
-	ft_putstr("int matrix initialized\n");
+
 	i = -1;
 	while (++i < y)
 	{
@@ -82,7 +73,6 @@ int		**make_sumatrix(char *info, char *matrix, int x, int y)
 		ft_putchar('\n');
 	}
   ft_putchar('\n');
-  ft_putstr("calling find_square\n");
 	find_square(s, x--, y);
 	return (s);
 }
