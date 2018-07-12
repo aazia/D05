@@ -6,7 +6,7 @@
 /*   By: shiroji <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/09 14:43:55 by shiroji           #+#    #+#             */
-/*   Updated: 2018/07/11 21:22:07 by azkeever         ###   ########.fr       */
+/*   Updated: 2018/07/11 21:42:56 by azkeever         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -14,25 +14,19 @@
  
 void find_square(int **m, int x, int y)
 {
-  int i,j;
-  int s[y][x];
-  int max_of_s, max_i, max_j; 
+	int i;
+	int j;
+  	int s[y][x];
 
-  i = -1;
-  while(++i < y)
-  {
-	  j = -1;
-	  while (++j < x)
-		  printf("%d", m[i][j]);
-	  printf("\n");
-  } 
   /* Set first column of S[][]*/
-  for(i = 0; i < y; i++)
-     s[i][0] = m[i][0];
+	i = -1;
+	while (++i < y)
+		s[i][0] = m[i][0];
 
-  /* Set first row of S[][]*/    
-  for(j = 0; j < x; j++)
-     s[0][j] = m[0][j];
+  /* Set first row of S[][]*/
+	j = -1;
+	while (++j < x)
+		s[0][j] = m[0][j];
 
   /* Construct other entries of S[][]*/
   for(i = 1; i < y; i++)
@@ -44,8 +38,15 @@ void find_square(int **m, int x, int y)
       else
         s[i][j] = 0;
     } 
-  } 
-   
+  }
+  find_max(s, m, i, j);
+}
+void find_max(int s[][], int **m, int i, int j)
+{   
+  	int max_of_s;
+	int max_i;
+	int max_j; 
+
   /* Find the maximum entry, and indexes of maximum entry 
      in S[][] */
   max_of_s = s[0][0]; max_i = 0; max_j = 0;
@@ -61,15 +62,23 @@ void find_square(int **m, int x, int y)
       }        
     }                 
   }     
-   
-  ft_putstr("Maximum size sub-matrix is: \n");
-  printf("%i, %i, %i\n", max_i, max_j, max_of_s);
-	for(i = max_i; i > max_i - max_of_s; i--)
+  i = max_i - max_of_s + 1;
+  while (i <= max_i)
   {
-	   for(j = max_j; j > max_j - max_of_s; j--)
-    {
-      ft_putnbr(m[i][j]);
-    }  
-    ft_putstr("\n");
-  }  
+      j = max_j - max_of_s + 1;
+      while (j <= max_j)
+          m[i][j++] = 2;
+      i++;
+  }
+}
+  i = 0;
+  while (i < y)
+  {
+      j = 0;
+      while (j < x)
+        ft_putnbr(m[i][j++]);
+      ft_putchar('\n');
+      i++;
+  }
+  ft_putchar('\n');
 }

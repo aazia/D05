@@ -113,7 +113,7 @@ char *make_matrix(char *info, char *map, int x, int y)
 }
 
 /* get's the info 2 read the map */
-char	*get_info(char *map)
+void	get_info(char *map)
 {
 	char	array[1];
 	int		file;
@@ -140,6 +140,7 @@ char	*get_info(char *map)
 	close(file);
 	y = ft_atoi(info);
 	x = i / y;
+  print_map(info, make_matrix(info, map, x, y));
 	return (make_matrix(info, map, x, y));
 }
 
